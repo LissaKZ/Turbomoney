@@ -3,24 +3,31 @@ package com.omilia;
 import com.omilia.diamant.custommodule.CustomModuleAdaptor;
 import com.omilia.diamant.custommodule.DataPooler;
 import com.omilia.diamant.dialog.components.fields.ApiField;
-import com.omilia.diamant.dialog.components.fields.FieldStatus;
 import com.omilia.diamant.dialog.components.fields.FieldsContainer;
 import com.omilia.diamant.loggers.GenericLogger;
 import com.omilia.diamant.managers.DialogManager;
+import com.omilia.samp.actions.SendSMSAction;
 
+import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 public class CustomModule extends CustomModuleAdaptor {
+
     private Map<String, ApiField> output = new HashMap<String, ApiField>();
     private final String MODULE_NAME = "Sample_module";
     private FieldsContainer fieldsContainer;
 
-    public Map<String, ApiField> applyCustomAction(String function, Map<String, ApiField> input){
 
-        if (function.equalsIgnoreCase("test")){
-        logger.logGreen("Values" + fieldsContainer.getField("test"));
+    public Map<String, ApiField> applyCustomAction(String function, Map<String, ApiField> input){
+        Map<String, ApiField> output = new HashMap<>();
+
+        switch (function){
+            case "SendSMS":
+                SendSMSAction sendSMSAction=new SendSMSAction(input,logger,fieldsContainer);
+                sendSMSAction.process();
+                output=sendSMSAction.getOutput();
+                break;
         }
         return output;
     }
@@ -51,7 +58,4 @@ public class CustomModule extends CustomModuleAdaptor {
     }
 
     public DataPooler getCopy(){return new CustomModule();}
-
-
-
 }
