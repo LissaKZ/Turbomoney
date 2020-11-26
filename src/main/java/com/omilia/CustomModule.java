@@ -8,6 +8,7 @@ import com.omilia.diamant.loggers.GenericLogger;
 import com.omilia.diamant.managers.DialogManager;
 import com.omilia.samp.actions.SendSMSAction;
 
+import javax.xml.soap.SOAPException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,11 @@ public class CustomModule extends CustomModuleAdaptor {
         switch (function){
             case "SendSMS":
                 SendSMSAction sendSMSAction=new SendSMSAction(input,logger,fieldsContainer);
-                sendSMSAction.process();
+                try {
+                    sendSMSAction.process();
+                } catch (SOAPException e) {
+                    e.printStackTrace();
+                }
                 output=sendSMSAction.getOutput();
                 break;
         }

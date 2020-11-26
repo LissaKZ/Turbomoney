@@ -2,10 +2,11 @@ package com.omilia.samp.actions;
 
 import com.omilia.diamant.dialog.components.fields.ApiField;
 
+import javax.xml.soap.SOAPException;
 import java.util.Map;
 
 public interface Action {
-    void process();
+    void process() throws SOAPException;
 
     void setInput(Map<String, ApiField> var1);
 
